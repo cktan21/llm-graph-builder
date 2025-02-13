@@ -360,6 +360,7 @@ export default function DeduplicationTab() {
           viewPoint={viewPoint}
           nodeValues={neoNodes}
           relationshipValues={neoRels}
+          setViewPoint={setViewPoint}
         />
       )}
     </>

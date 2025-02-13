@@ -313,7 +313,7 @@ export const intitalGraphType = (isGDSActive: boolean): GraphType[] => {
 export const graphLabels = {
   showGraphView: 'showGraphView',
   chatInfoView: 'chatInfoView',
-  generateGraph: 'Generated Graph',
+  generateGraph: 'Generated Graph for All Files',
   inspectGeneratedGraphFrom: 'Inspect Generated Graph from',
   document: 'Document',
   chunk: 'Chunk',

@@ -41,7 +41,7 @@ export default function EntityExtractionSetting({
   const [viewPoint, setViewPoint] = useState<string>('tableView');
   const [relationshipMode, setRelationshipMode] = useState<'list' | 'tuple'>(
     selectedRels.length > 0 && selectedRels.every((t) => t.value.split(',').length === 3) ? 'tuple' : 'list'
-  );  
+  );
   const removeNodesAndRels = (nodelabels: string[], relationshipTypes: string[]) => {
     const labelsToRemoveSet = new Set(nodelabels);
     const relationshipLabelsToremoveSet = new Set(relationshipTypes);
@@ -143,21 +143,19 @@ export default function EntityExtractionSetting({
       .map((option) => {
         const value = option.value.trim();
         if (relationshipMode === 'tuple' && value.split(',').length !== 3) {
-           showNormalToast(
-              `Invalid tuple format for relationship "${option.label}". Please enter as "Source, Relationship, Target".`
-            );
-            return null;
+          showNormalToast(
+            `Invalid tuple format for relationship "${option.label}". Please enter as "Source, Relationship, Target".`
+          );
+          return null;
         }
         if (relationshipMode === 'list' && value.includes(',')) {
-          showNormalToast(
-            `Invalid format for relationship "${option.label}". Commas are not allowed in list mode.`
-          );
+          showNormalToast(`Invalid format for relationship "${option.label}". Commas are not allowed in list mode.`);
           return null;
         }
         return { ...option, value: value };
       })
       .filter((option): option is OptionType => option !== null);
-  
+
     setSelectedRels(processedOptions);
     localStorage.setItem(
       'selectedRelationshipLabels',
@@ -215,16 +213,18 @@ export default function EntityExtractionSetting({
   const clickHandler: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     setSelectedSchemas([]);
     setSelectedNodes(nodeLabelOptions);
-    if(relationshipMode === 'list') setSelectedRels(relationshipTypeOptions);
+    if (relationshipMode === 'list') {
+    setSelectedRels(relationshipTypeOptions);}
     localStorage.setItem(
       'selectedNodeLabels',
       JSON.stringify({ db: userCredentials?.uri, selectedOptions: nodeLabelOptions })
     );
-    if(relationshipMode === 'list') localStorage.setItem(
-      'selectedRelationshipLabels',
-      JSON.stringify({ db: userCredentials?.uri, selectedOptions: relationshipTypeOptions })
-    );
-  }, [nodeLabelOptions, relationshipTypeOptions,relationshipMode]);
+    if (relationshipMode === 'list')
+      {localStorage.setItem(
+        'selectedRelationshipLabels',
+        JSON.stringify({ db: userCredentials?.uri, selectedOptions: relationshipTypeOptions })
+      );}
+  }, [nodeLabelOptions, relationshipTypeOptions, relationshipMode]);
 
   const handleClear = () => {
     setSelectedNodes([]);
@@ -333,19 +333,13 @@ export default function EntityExtractionSetting({
 
         <Flex className='mt-2' justifyContent='center'>
           <ButtonWithToolTip
-            text="Toggle relationship input mode"
+            text='Toggle relationship input mode'
             onClick={() => setRelationshipMode((prevMode) => (prevMode === 'list' ? 'tuple' : 'list'))}
-            label={
-              relationshipMode === 'list'
-                ? 'Switch to Three-Tuple Mode'
-                : 'Switch to List Mode'
-            }
-            placement="top"
+            label={relationshipMode === 'list' ? 'Switch to Three-Tuple Mode' : 'Switch to List Mode'}
+            placement='top'
             disabled={selectedRels.length > 0}
           >
-            {relationshipMode === 'list'
-              ? 'Switch to Three-Tuple Mode'
-              : 'Switch to List Mode'}
+            {relationshipMode === 'list' ? 'Switch to Three-Tuple Mode' : 'Switch to List Mode'}
           </ButtonWithToolTip>
         </Flex>
 
@@ -422,7 +416,12 @@ export default function EntityExtractionSetting({
           </Flex>
         </Flex>
       </div>
-      <GraphViewModal open={openGraphView} setGraphViewOpen={setOpenGraphView} viewPoint={viewPoint} />
+      <GraphViewModal
+        open={openGraphView}
+        setGraphViewOpen={setOpenGraphView}
+        viewPoint={viewPoint}
+        setViewPoint={setViewPoint}
+      />
     </div>
   );
 }

@@ -41,7 +41,7 @@ export const extractAPI = async (
 ): Promise<any> => {
   const urlExtract = `${url()}/extract`;
   const method: Method = 'post';
-  const allowedRelationshipString = JSON.stringify(allowedRelationship)
+  const allowedRelationshipString = JSON.stringify(allowedRelationship);
   let additionalParams: ExtractParams;
   if (source_type === 's3 bucket') {
     additionalParams = {

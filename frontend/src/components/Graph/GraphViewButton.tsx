@@ -22,6 +22,7 @@ const GraphViewButton: React.FC<GraphViewButtonProps> = ({ nodeValues, relations
         viewPoint={viewPoint}
         nodeValues={nodeValues}
         relationshipValues={relationshipValues}
+        setViewPoint={setViewPoint}
       />
     </>
   );

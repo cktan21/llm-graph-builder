@@ -70,6 +70,7 @@ const CommunitiesInfo: FC<CommunitiesProps> = ({ loading, communities, mode }) =
           viewPoint={viewPoint}
           nodeValues={neoNodes}
           relationshipValues={neoRels}
+          setViewPoint={setViewPoint}
         />
       )}
     </>

@@ -1,4 +1,13 @@
-import { Banner, Dialog, Flex, IconButtonArray, LoadingSpinner, useDebounceValue } from '@neo4j-ndl/react';
+import {
+  Banner,
+  Dialog,
+  Flex,
+  IconButtonArray,
+  LoadingSpinner,
+  useDebounceValue,
+  Switch,
+  Typography,
+} from '@neo4j-ndl/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BasicNode,
@@ -40,6 +49,7 @@ const GraphViewModal: React.FunctionComponent<GraphViewModalProps> = ({
   nodeValues,
   relationshipValues,
   selectedRows,
+  setViewPoint,
 }) => {
   const nvlRef = useRef<NVL>(null);
   const [nodes, setNodes] = useState<ExtendedNode[]>([]);
@@ -59,6 +69,8 @@ const GraphViewModal: React.FunctionComponent<GraphViewModalProps> = ({
   const [selected, setSelected] = useState<{ type: EntityType; id: string } | undefined>(undefined);
   const [mode, setMode] = useState<boolean>(false);
   const graphQueryAbortControllerRef = useRef<AbortController>();
+  const [dbSchema, setDbSchema] = useState<boolean>(false);
+  const [previousViewPoint, setPreviousViewPoint] = useState<string | null>(null);
 
   const graphQuery: string =
     graphType.includes('DocumentChunk') && graphType.includes('Entities')
@@ -187,7 +199,7 @@ const GraphViewModal: React.FunctionComponent<GraphViewModalProps> = ({
         setLoading(false);
       }
     }
-  }, [open]);
+  }, [open, viewPoint]);
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -329,6 +341,7 @@ const GraphViewModal: React.FunctionComponent<GraphViewModalProps> = ({
     setAllRelationships([]);
     setSearchQuery('');
     setSelected(undefined);
+    setDbSchema(false);
   };
 
   const mouseEventCallbacks = {
@@ -345,6 +358,21 @@ const GraphViewModal: React.FunctionComponent<GraphViewModalProps> = ({
     onZoom: true,
     onDrag: true,
   };
+
+  const toggleSchema = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setPreviousViewPoint(viewPoint);
+      setDbSchema(true);
+      setViewPoint(graphLabels.showSchemaView);
+    } else {
+      setDbSchema(false);
+      if (previousViewPoint) {
+        setViewPoint(previousViewPoint);
+      }
+    }
+  };
+
+  console.log('view', viewPoint);
 
   return (
     <>
@@ -372,14 +400,26 @@ const GraphViewModal: React.FunctionComponent<GraphViewModalProps> = ({
                 <span className='n-body-small ml-1'>{graphLabels.chunksInfo}</span>
               </div>
             ))}
-          <Flex className='w-full' alignItems='center' flexDirection='row'>
+          <Flex className='w-full justify-between items-center' flexDirection='row'>
             {checkBoxView && (
-              <CheckboxSelection
-                graphType={graphType}
-                loading={loading}
-                handleChange={handleCheckboxChange}
-                {...getCheckboxConditions(allNodes)}
-              />
+              <>
+                <CheckboxSelection
+                  graphType={graphType}
+                  loading={loading}
+                  handleChange={handleCheckboxChange}
+                  {...getCheckboxConditions(allNodes)}
+                />
+
+                <Switch
+                  label={<Typography variant='subheading-small'>Toggle Schema</Typography>}
+                  isChecked={dbSchema}
+                  hasLabelBefore
+                  ariaLabel='toggle schema'
+                  onChange={(e) => {
+                    toggleSchema(e);
+                  }}
+                />
+              </>
             )}
           </Flex>
         </Dialog.Header>

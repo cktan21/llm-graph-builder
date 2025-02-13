@@ -142,6 +142,7 @@ const EntitiesInfo: FC<EntitiesProps> = ({ loading, mode, graphonly_entities, in
           viewPoint={viewPoint}
           nodeValues={neoNodes}
           relationshipValues={neoRels}
+          setViewPoint={setViewPoint}
         />
       )}
     </>

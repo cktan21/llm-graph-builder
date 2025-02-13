@@ -319,6 +319,7 @@ export default function DeletePopUpForOrphanNodes({
           viewPoint={viewPoint}
           nodeValues={neoNodes}
           relationshipValues={neoRels}
+          setViewPoint={setViewPoint}
         />
       )}
     </>

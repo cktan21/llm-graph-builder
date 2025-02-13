@@ -220,7 +220,7 @@ export const filterData = (
   // const processedEntities = entityTypes.flatMap(item => item.includes(',') ? item.split(',') : item);
   if (graphType.includes('DocumentChunk') && !graphType.includes('Entities') && !graphType.includes('Communities')) {
     filteredNodes = allNodes.filter(
-      (node) => (node.labels.includes('Document') && node.properties.fileName) || node.labels.includes('Chunk')
+      (node) => (node.labels.includes('Document') && (node.properties.fileName || node.properties.name)) || node.labels.includes('Chunk')
     );
     const nodeIds = new Set(filteredNodes.map((node) => node.id));
     filteredRelations = allRelationships.filter(
@@ -270,7 +270,7 @@ export const filterData = (
   ) {
     filteredNodes = allNodes.filter(
       (node) =>
-        (node.labels.includes('Document') && node.properties.fileName) ||
+        (node.labels.includes('Document') && (node.properties.fileName || node.properties.name)) ||
         node.labels.includes('Chunk') ||
         (!node.labels.includes('Document') && !node.labels.includes('Chunk') && !node.labels.includes('__Community__'))
     );
@@ -313,7 +313,7 @@ export const filterData = (
     !graphType.includes('Entities')
   ) {
     const documentChunkNodes = allNodes.filter(
-      (node) => (node.labels.includes('Document') && node.properties.fileName) || node.labels.includes('Chunk')
+      (node) => (node.labels.includes('Document') && (node.properties.fileName || node.properties.name)) || node.labels.includes('Chunk')
     );
     const communityNodes = allNodes.filter((node) => node.labels.includes('__Community__'));
     filteredNodes = [...documentChunkNodes, ...communityNodes];

@@ -411,7 +411,7 @@ const GraphViewModal: React.FunctionComponent<GraphViewModalProps> = ({
                 />
 
                 <Switch
-                  label={<Typography variant='subheading-small'>Toggle Schema</Typography>}
+                  label={<Typography variant='subheading-small'>Database Schema</Typography>}
                   isChecked={dbSchema}
                   hasLabelBefore
                   ariaLabel='toggle schema'
